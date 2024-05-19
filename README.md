@@ -1,2 +1,3 @@
-# Integer-Complexity
-www.wikiwand.com/en/Integer_complexity
+# [Integer-Complexity](https://en.wikipedia.org/wiki/Integer_complexity)
+
+![dist](./dist.png)
