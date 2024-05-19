@@ -1,5 +1,6 @@
 import math
 from enum import Enum
+import matplotlib.pyplot as plt
 
 # anything less than 4 is assumed to be prime, including 1 and 0
 def isPrime(n):
@@ -9,6 +10,9 @@ def isPrime(n):
         if(n % i == 0 and n != i):
             return False
     return True
+
+def isOdd(n):
+    return False if n % 2 == 0 else True
 
 class Comp(Enum):
     ZERO=0
@@ -23,7 +27,7 @@ class Comp(Enum):
     NINE=6
 
 def compHandle(n):
-    if n == 0:
+    if n <= 0:
         return Comp.ZERO.value
     elif n == 1:
         return Comp.ONE.value
@@ -63,58 +67,25 @@ def leastFactors(n):
             break
     return [f1, f2]
 
-# TODO: make recursive 
-def complexity(n):
-    roots = []
-    p = False
 
+def complexity(n, a=0):
     if n <= 9:
-        return compHandle(n)
-
-    if not isPrime(n):
-        while True:
-            f = leastFactors(n)
-            roots.append(f[0])
-            if isPrime(f[1]):
-                roots.append(f[1])
-                break
-            else:
-                n = f[1]
+        return compHandle(n)+a
+    
+    if not isOdd(n):
+        f = leastFactors(n)
+        if f[1] <= 9:
+            return compHandle(f[0])+compHandle(f[1])+a
+        else:
+            return complexity(f[1],a)+a
     else:
-        n = n-1
-        p = True
-        while True:
-            f = leastFactors(n)
-            roots.append(f[0])
-            if isPrime(f[1]) and f[1] <= 9:
-                roots.append(f[1])
-                break
-            elif isPrime(f[1]):
-                # TODO: handle double digit factors
-                # NOT REAL RETURN
-                # THIS CODE IS BROKEN
-                return 0
-            else:
-                n = f[1]
+        return complexity(n-1,a+1)+a
 
-    totalComplexity = 0
+vals = []
 
-    for i in range(len(roots)):
-        totalComplexity = totalComplexity + compHandle(roots[i])
-    if p:
-        totalComplexity = totalComplexity+1
+for i in range(1000):
+    # print(i, complexity(i))
+    plt.plot(i, complexity(i), "ro")
 
-    return totalComplexity
-    # return roots
-
-n = 23
-print(n, complexity(n))
-
-# for i in range(100):
-#     print(i, complexity(i))
-
-# for i in range(100):
-#     print(i, isPrime(i))
-
-# for i in range(100):
-#     print(i, leastFactors(i))
+# plt.show()
+plt.savefig("dist.png")
