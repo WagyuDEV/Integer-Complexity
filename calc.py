@@ -14,6 +14,7 @@ def isPrime(n):
 def isOdd(n):
     return False if n % 2 == 0 else True
 
+# ineteger complexities for the first nine values
 class Comp(Enum):
     ZERO=0
     ONE=1
@@ -68,7 +69,7 @@ def leastFactors(n):
     return [f1, f2]
 
 
-def complexity(n, a=0):
+def complexity(n, a=1):
     if n <= 9:
         return compHandle(n)+a
     
@@ -86,6 +87,10 @@ vals = []
 for i in range(1000):
     # print(i, complexity(i))
     plt.plot(i, complexity(i), "ro")
+
+# n = 22
+# print(leastFactors(n))
+# print(n, complexity(n))
 
 # plt.show()
 plt.savefig("dist.png")
